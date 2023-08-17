@@ -18,6 +18,9 @@ h6 {
 	font-weight: bold;
 }
 @layer components {
+	.icon {
+		@apply text-2xl cursor-pointer hover:scale-110;
+	}
 	.page {
 		@apply p-0 sm:px-2 max-w-[1200px] mx-auto;
 	}
