@@ -27,4 +27,7 @@ h6 {
 	input {
 		@apply bg-gray-800/20 border rounded-md w-full p-2;
 	}
+	input[type='submit'] {
+		@apply cursor-pointer;
+	}
 }

@@ -1,5 +1,6 @@
 import pb from '$lib/utils/backend';
 import type { Thing } from '$lib/utils/types';
+import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load = (async () => {
@@ -22,3 +23,22 @@ export const load = (async () => {
 
 	return { things: data };
 }) satisfies PageServerLoad;
+
+export const actions: import('./$types').Actions = {
+	postThing: async (event) => {
+		try {
+			const formData = await event.request.formData();
+			await pb.collection('things').create({
+				title: formData.get('title'),
+				description: formData.get('description'),
+				tags: formData.get('tags'),
+				user: pb.authStore.model?.id,
+				completed: false
+			});
+
+			return { success: true, msg: 'Uploaded Successfully' };
+		} catch (error) {
+			fail(400, { msg: 'Error', success: false });
+		}
+	}
+} satisfies Actions;
